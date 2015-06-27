@@ -1,0 +1,59 @@
+/* CSS Document */
+@font-face {
+    font-family: 'bundyregular';
+    src: url('font-webfont.eot');
+    src: url('font-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font-webfont.woff') format('woff'),
+         url('font-webfont.ttf') format('truetype'),
+         url('font-webfont.svg#bundyregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+body {background-color:#101010; color:#fff; position:relative; }
+body.download-page {background:url(../img/bg-static.jpg) no-repeat bottom left; }
+a {color:#fff;}
+a:hover {color:#acf8c1;}
+#logo-container {text-align:center; max-width:393px; margin:0px auto;}
+#logo-container img {width:100%; height:auto;}
+video#smoke {width:auto; height:100%; position:fixed; top:0px; left:0px; z-index:-1000;}
+.container {padding:10px 50px 50px 30px; max-width:600px;}
+#results_container {display:none;}
+h1.name-with-element strong {color:#39775b; font-weight:bold;}
+h1.name-with-element {font-family: 'bundyregular'; color:#fff; text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7); font-size:76px; margin-bottom:30px; white-space:nowrap;}
+h1.name-with-element br {text-indent:130px;}
+h1.name-with-element span {text-shadow:none;}
+
+em {margin:4px; font-style:normal; text-shadow:none; text-transform:capitalize;}
+.element, em {display:inline-block; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; width:120px; height:120px; line-height:120px; background: #1b370f; border:3px solid #fff; font-size:74px; font-weight:bold; text-align:center; letter-spacing:-3px; cursor:pointer; position:relative;
+/* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMWIzNzBmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzUzYWY2YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+background: -moz-linear-gradient(-45deg, #1b370f 0%, #53af6c 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#1b370f), color-stop(100%,#53af6c)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg, #1b370f 0%,#53af6c 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg, #1b370f 0%,#53af6c 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg, #1b370f 0%,#53af6c 100%); /* IE10+ */
+background: linear-gradient(135deg, #1b370f 0%,#53af6c 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b370f', endColorstr='#53af6c',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */}
+.element-container { float:left; margin:7px; }
+.element-full {font-weight:bold; display:block; margin-top:2px;}
+.selected {-moz-box-shadow: 0 0 20px #fff; -webkit-box-shadow: 0 0 20px #fff; box-shadow: 0px 0px 20px #fff;}
+em em {background:none; border:none; margin:0;}
+.atomic-weight, em em {font-size:16px; position:absolute; height:20px; width:60px; top:5px; right:5px; line-height:20px; letter-spacing:0px; text-align:right;}
+#contact {position:fixed; width:100px; text-align:right; height:20px; bottom:10px; right:10px;}
+#contact a {text-decoration:underline;}
+#facebook {margin:10px 0px 0px 10px;}
+#share, #download {float:left; margin-right:10px;}
+#social-buttons {display:none;}
+#share-container {display:none;}
+#download-container {margin:100px;}
+#home-link-container {text-align:center; margin-top:10px;}
+.tighter-bottom-margin {margin-bottom:20px !important;}
+#normal-letter-spacing em {letter-spacing:normal !important;}
+#website-watermark {position:fixed; width:100px; text-align:right; height:20px; bottom:10px; right:20px;}
+
+/* bootstrap */
+.bb-form {display: inline-block; width: 82%; }
+.bb-submit { width: 16%; float: right; }
+.full-width {width:100%; margin-bottom:10px;}
+.clearer-warning {font-size:16px;}
