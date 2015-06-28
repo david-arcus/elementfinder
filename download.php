@@ -1,5 +1,7 @@
-<?php require_once 'inc/config.php'; ?>
-<?php require_once('inc/WkHtmlToPdf.php');
+<?php 
+
+require_once 'inc/config.php';
+require_once('inc/WkHtmlToPdf.php');
 
 $id = $_GET['id'];
 

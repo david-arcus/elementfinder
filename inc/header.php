@@ -18,12 +18,8 @@
 <meta property="og:type" content="website"/>
 
 </head>
-
-<?php if (isDownloadPage() == true): ?>
-<body class="download-page">
-<?php else: ?>
-<body>
-<?php endif; ?>
+    
+<body <?php echo (isDownloadPage() ? 'class="download-page"' : ''); ?>>
 
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
@@ -34,7 +30,7 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<?php if (isHomePage() == true): ?>
+<?php if (isHomePage()): ?>
 
 <div id="facebook">
 <div class="fb-like" data-href="<?php echo $fb_url; ?>" data-width="300" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-colorscheme="dark"></div>
@@ -42,7 +38,7 @@
 
 <?php endif; ?>
 
-<?php if (isDownloadPage() == false): ?>
+<?php if (!isDownloadPage()): ?>
 
 <video id="smoke" autoplay loop>
   <source src="<?php echo SITE_URL; ?>vid/smoke.mp4" type="video/mp4">

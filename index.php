@@ -25,7 +25,7 @@ if (isset($_POST['download_image'])) {
 $fb_url = SITE_URL;
 $fb_name = '';
 
-if (isHomePage() == false) {
+if (!isHomePage()) {
 
     list($share_id, $orig_name, $html_name, $share_date) = getName($_GET['sid']);
     $page_title = ucwords($orig_name);
