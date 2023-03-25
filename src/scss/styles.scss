@@ -1,5 +1,11 @@
 p.display-user-name {
   font-size: 36px;
+
+  strong {
+    display: inline-block;
+    border:1px solid grey;
+    padding:2px;
+  }
 }
 
 .buttons-container {
@@ -19,4 +25,9 @@ p.display-user-name {
     }
   }
 
+}
+
+pre {
+  width:600px;
+  white-space: pre-wrap;
 }
