@@ -3,7 +3,7 @@ import elements from './elements';
 class Main {
     constructor() {
         this.userInput = document.querySelector('.user-input');
-        this.submit = document.querySelector('.submit');
+        this.form = document.querySelector('.form');
         this.displayUserName = document.querySelector('.display-user-name');
         this.foundElements;
         this.selectedElements;
@@ -11,7 +11,8 @@ class Main {
 
     init() {
 
-        this.submit.addEventListener('click', () => {
+        this.form.addEventListener('submit', (event) => {
+            event.preventDefault();
             this.findElements();
             this.generateElementButtons();
         });
@@ -27,7 +28,7 @@ class Main {
             // do a global, case-insensitive search in user's name for element
             const regExp = new RegExp(element.symbol, "gi");
             // spread operator executes the regex
-            const matches = [...this.userInput.value.matchAll(regExp)];    
+            const matches = [...this.userInput.value.matchAll(regExp)];
 
             if (matches.length > 0) {
 
@@ -42,7 +43,7 @@ class Main {
                 foundIndexes.forEach(index => {
                     slots.push(index);
                     if (element.symbol.length > 1) {
-                        slots.push(index+element.symbol.length-1);
+                        slots.push(index + element.symbol.length - 1);
                     }
                 });
 
@@ -50,16 +51,16 @@ class Main {
                 // of every found element
                 this.foundElements.set(element.symbol, {
                     foundIndexes,
-                    length:element.symbol.length,
-                    slots:slots
+                    length: element.symbol.length,
+                    slots: slots
                 });
 
             }
 
-        })
-        console.log(this.foundElements);
+        });
 
-        
+        // console.log(this.foundElements);
+
     }
 
     generateElementButtons() {
@@ -88,7 +89,7 @@ class Main {
             button.addEventListener('click', (event) => {
 
                 this.renderElementsInName(event);
-                
+
             })
         })
     }
@@ -104,7 +105,7 @@ class Main {
         let elementDetails = this.foundElements.get(clickedElement);
 
         // check if element is already selected
-        if (this.selectedElements.get(clickedElement) == undefined) {
+        if (typeof this.selectedElements.get(clickedElement) === 'undefined') {
             // toggle on
             this.selectedElements.set(clickedElement, elementDetails);
             // get all the indexes of where this element occurs 
@@ -119,7 +120,7 @@ class Main {
         }
 
         // loop through every selected element
-        for (let [selectedElement] of this.selectedElements) {  
+        for (let [selectedElement] of this.selectedElements) {
 
             // element is being toggled on
             if (requestedSlots) {
@@ -130,26 +131,29 @@ class Main {
                     // exclude the element being added
                     if (selectedElement != clickedElement) {
 
-                        const collision = this.selectedElements.get(selectedElement).slots.filter(element =>  {
+                        const collision = this.selectedElements.get(selectedElement).slots.filter(element => {
                             return requestedSlots.includes(element)
                         });
 
                         if (collision.length > 0) {
-                            console.log(`collision! at: ${collision}`);
-                            console.log(`collision with: ${selectedElement}`);
-                            console.log(`clicked element: ${clickedElement}`);
 
-                            if (this.selectedElements.get(selectedElement).foundIndexes.length == 1) { 
+                            this.selectedElements.delete(selectedElement);
+                            document.querySelector(`[data-element=${selectedElement}]`).classList.remove('selected');
+
+                            // TODO: retain other instances of elements
+                            /*
+                            if (this.selectedElements.get(selectedElement).foundIndexes.length == 1) {
                                 // we can remove the element if there's only one instance of it
                                 this.selectedElements.delete(selectedElement);
                                 document.querySelector(`[data-element=${selectedElement}]`).classList.remove('selected');
                             } else if (this.selectedElements.get(selectedElement).foundIndexes.length > 1) {
-                                // retain other instances of element that there isn't a collision with
+                                // ..
                             }
-
+                            */
                         }
 
                     }
+
                 }
 
             }
@@ -163,8 +167,8 @@ class Main {
                     } else {
                         userNameArray[index] = `<strong>${userNameArray[index]}`;
 
-                        userNameArray[index+selectedElement.length-1] =
-                        `${userNameArray[index+selectedElement.length-1]}</strong>`;
+                        userNameArray[index + selectedElement.length - 1] =
+                            `${userNameArray[index + selectedElement.length - 1]}</strong>`;
                     }
                 })
 
@@ -175,7 +179,8 @@ class Main {
         // console.log(this.selectedElements);      
 
         this.displayUserName.innerHTML = userNameArray.join('');
-        document.getElementById('foo').innerText = JSON.stringify(Array.from(this.selectedElements.entries()), null, 2);
+        // document.getElementById('debug').innerText = JSON.stringify(Array.from(this.selectedElements.entries()), null, 2);
+
     }
 }
 
