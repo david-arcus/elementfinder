@@ -1,4 +1,22 @@
-h1 {
-    color: hotpink;
-    font-family: cursive;
+p.display-user-name {
+  font-size: 36px;
+}
+
+.buttons-container {
+  display:flex;
+  flex-direction: row;
+  width:500px;
+
+  .element-button {
+    border: 1px solid grey;
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+    margin:10px;
+
+    &.selected {
+      border:2px solid #cc0000;
+    }
   }
+
+}
