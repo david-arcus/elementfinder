@@ -1,10 +1,17 @@
 import elements from './elements';
+import outputScaling from './outputScaling';
+import debounce from './debounce';
+import share from './share';
 
 class Main {
     constructor() {
         this.userInput = document.querySelector('.user-input');
         this.form = document.querySelector('.form');
-        this.displayUserName = document.querySelector('.display-user-name');
+        this.displayUserName = document.getElementById('display-user-name');
+        this.stage = document.getElementById('stage');
+        this.userSubmitButton = document.querySelector('.user-submit');
+        this.share = document.querySelector('.share');
+        this.stage = document.getElementById('stage')
         this.foundElements;
         this.selectedElements;
     }
@@ -16,6 +23,18 @@ class Main {
             this.findElements();
             this.generateElementButtons();
         });
+
+        this.share.addEventListener('click', () => {
+            share.renderImage(this.stage);
+        })
+
+        document.fonts.ready.then(() => {
+            this.userSubmitButton.disabled = false;
+        });
+
+        window.addEventListener('resize', () => {
+            debounce(outputScaling.set(this.stage, this.displayUserName, 40));
+        }, false);
     }
 
     findElements() {
@@ -25,6 +44,8 @@ class Main {
 
         elements.forEach(element => {
 
+            this.userInput.value = this.stripTags(this.userInput.value).trim();
+            // this.userInput.value = this.userInput.value.trim();
             // do a global, case-insensitive search in user's name for element
             const regExp = new RegExp(element.symbol, "gi");
             // spread operator executes the regex
@@ -52,7 +73,9 @@ class Main {
                 this.foundElements.set(element.symbol, {
                     foundIndexes,
                     length: element.symbol.length,
-                    slots: slots
+                    slots: slots,
+                    weight: element.weight,
+                    name: element.name
                 });
 
             }
@@ -63,25 +86,37 @@ class Main {
 
     }
 
+    stripTags(string) {
+
+        let output = new DOMParser().parseFromString(string, 'text/html');
+        return output.body.textContent || "";
+
+    }
+
     generateElementButtons() {
 
         // generate a button for every found element in user's name
 
         if (this.foundElements.size == 0) {
-            console.log('there are no elements in your name!')
+            this.noResultsFound();
             return;
         }
 
-        this.displayUserName.innerHTML = this.userInput.value;
+        this.displayUserName.innerText = this.userInput.value;
 
         const buttonElements = [];
-        let buttonsContainer = document.querySelector('.buttons-container');
+        let buttonElementsContainer = document.querySelector('.elements-container');
 
-        for (let [key, val] of this.foundElements) {
-            buttonElements.push(`<div class="element-button" data-element="${key}">${key}</div>`)
+        for (let [element, details] of this.foundElements) {
+            buttonElements.push(`
+                <div class="element">
+                    <div class="element-button" data-element="${element}">${element}<sup>${details.weight}</sup></div>
+                    <a href="http://en.wikipedia.org/wiki/${details.name}" target="_blank">${details.name}</a>
+                </div>
+            `)
         }
 
-        buttonsContainer.innerHTML = buttonElements.join('');
+        buttonElementsContainer.innerHTML = buttonElements.join('');
 
         let buttons = document.querySelectorAll('.element-button');
 
@@ -89,9 +124,26 @@ class Main {
             button.addEventListener('click', (event) => {
 
                 this.renderElementsInName(event);
+                outputScaling.set(this.stage, this.displayUserName, 40);
 
             })
         })
+
+        this.showResults();
+        this.share.scrollIntoView({ behavior: 'smooth'});
+        // kick things off by clicking first found element
+        buttons[0].click();
+    }
+
+    showResults() {
+        const stageContainer = document.querySelector('.stage-container')
+        stageContainer.classList.remove('hidden');
+        outputScaling.set(this.stage, this.displayUserName, 40);
+
+    }
+
+    noResultsFound() {
+        alert('There are no elements from the periodic table in your name!');
     }
 
     renderElementsInName(event) {
@@ -100,8 +152,9 @@ class Main {
         // them as data IDs to find which one was clicked
         let clickedElement = event.target.dataset.element;
         let userNameArray = this.userInput.value.split('');
-        let requestedSlots;
+        //  console.log(userNameArray);
 
+        let requestedSlots;
         let elementDetails = this.foundElements.get(clickedElement);
 
         // check if element is already selected
@@ -161,14 +214,16 @@ class Main {
             // check if element has been deleted due to collision
             if (this.selectedElements.get(selectedElement) != undefined) {
 
+                let weight = this.selectedElements.get(selectedElement).weight;
+
                 this.selectedElements.get(selectedElement).foundIndexes.forEach(index => {
                     if (selectedElement.length === 1) {
-                        userNameArray[index] = `<strong>${userNameArray[index]}</strong>`;
+                        userNameArray[index] = `<em>${userNameArray[index]}<sup>${weight}</sup></em>`;
                     } else {
-                        userNameArray[index] = `<strong>${userNameArray[index]}`;
+                        userNameArray[index] = `<em>${userNameArray[index]}`;
 
                         userNameArray[index + selectedElement.length - 1] =
-                            `${userNameArray[index + selectedElement.length - 1]}</strong>`;
+                            `${userNameArray[index + selectedElement.length - 1]}<sup>${weight}</sup></em>`;
                     }
                 })
 
@@ -178,7 +233,7 @@ class Main {
 
         // console.log(this.selectedElements);      
 
-        this.displayUserName.innerHTML = userNameArray.join('');
+        this.displayUserName.innerHTML = userNameArray.join('').replaceAll(' ', '<br>');
         // document.getElementById('debug').innerText = JSON.stringify(Array.from(this.selectedElements.entries()), null, 2);
 
     }
